@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>hbmon</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' rx='3' fill='%23e0b23a'/><path d='M4 3v10M12 3v10M4 8h8' stroke='%23222' stroke-width='2'/></svg>">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<div id="app">
+  <!-- top-left: file browser -->
+  <section id="q-tree" class="pane">
+    <header>
+      <span class="title">Files</span>
+      <input id="tree-path" type="text" spellcheck="false" placeholder="path — Enter to reveal">
+      <button id="tree-refresh" title="Reload expanded folders">⟳</button>
+      <label title="Show all files, not only videos"><input type="checkbox" id="tree-all"> all</label>
+      <label title="Show hidden files"><input type="checkbox" id="tree-hidden"> hidden</label>
+    </header>
+    <div id="tree" class="list" tabindex="0"></div>
+    <footer id="tree-foot"></footer>
+  </section>
+
+  <div class="split-v" id="split-v"></div>
+
+  <!-- top-right: target config -->
+  <section id="q-target" class="pane">
+    <header><span class="title">Target</span><span id="hb-cmd" class="dim mono"></span></header>
+    <div class="form">
+      <label for="dest">Directory</label>
+      <div class="row">
+        <input id="dest" type="text" spellcheck="false" placeholder="/path/to/output">
+        <button id="dest-from-tree" title="Use the focused folder in the file browser">← tree</button>
+      </div>
+      <label for="preset">Preset</label>
+      <div class="row">
+        <select id="preset"><option value="">loading…</option></select>
+        <button id="preset-refresh" title="Reload presets from HandBrake">⟳</button>
+      </div>
+      <label for="ext">Container</label>
+      <div class="row">
+        <select id="ext"><option>mkv</option><option>mp4</option><option>m4v</option><option>webm</option></select>
+        <label class="inline" for="existing">If output exists</label>
+        <select id="existing">
+          <option value="skip">skip</option>
+          <option value="rename">rename</option>
+          <option value="overwrite">overwrite</option>
+        </select>
+      </div>
+      <label for="extra">Extra args</label>
+      <input id="extra" type="text" spellcheck="false" placeholder="appended to HandBrakeCLI, e.g. --subtitle-lang-list eng">
+      <span></span>
+      <label class="check"><input type="checkbox" id="keep" checked> Keep folder structure when adding folders</label>
+    </div>
+    <div id="sel-preview" class="dim"></div>
+    <div class="add-row">
+      <button id="add" class="primary" disabled>Add to queue</button>
+      <span id="add-msg"></span>
+    </div>
+  </section>
+
+  <div class="split-h" id="split-h"></div>
+
+  <!-- bottom-left: queue -->
+  <section id="q-queue" class="pane">
+    <header>
+      <span class="title">Queue</span>
+      <span id="queue-counts" class="counts"></span>
+    </header>
+    <div id="queue" class="list" tabindex="0"></div>
+  </section>
+
+  <!-- bottom-right: status -->
+  <section id="q-status" class="pane">
+    <header class="toolbar">
+      <button id="btn-start" title="Start / resume the queue">▶ Start</button>
+      <button id="btn-pause" title="Pause the running encode">⏸ Pause</button>
+      <button id="btn-stopafter" title="Stop the queue once the current job finishes">⏭ Stop after current</button>
+      <button id="btn-abort" title="Abort the current job and stop the queue">⏹ Abort</button>
+      <span class="sep"></span>
+      <button id="btn-retry" title="Requeue selected finished/failed jobs">↻ Retry</button>
+      <button id="btn-remove" title="Remove selected jobs (Del)">✕ Remove</button>
+      <button id="btn-clear" title="Remove all finished jobs">Clear done</button>
+      <span id="run-state" class="badge"></span>
+    </header>
+    <div id="status" class="scroll">
+      <div id="overview" class="kv"></div>
+      <div id="selinfo"></div>
+    </div>
+  </section>
+</div>
+<div id="toast"></div>
+<script src="app.js"></script>
+</body>
+</html>

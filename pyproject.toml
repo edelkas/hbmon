@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hbmon"
+version = "0.1.0"
+description = "A small web UI to queue, control and monitor HandBrakeCLI encodes"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = []
+
+[project.scripts]
+hbmon = "hbmon.__main__:main"
+
+[tool.setuptools]
+packages = ["hbmon"]
+
+[tool.setuptools.package-data]
+hbmon = ["static/*"]
