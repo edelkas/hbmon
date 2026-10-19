@@ -39,13 +39,22 @@ service:
 
 ```ini
 # ~/.config/systemd/user/hbmon.service
+[Unit]
+Description=hbmon HandBrake queue
+StartLimitIntervalSec=0
+
 [Service]
+# The directory that *contains* the hbmon/ package folder (not needed after `pip install .`)
+WorkingDirectory=%h/path/to/hbmon
 ExecStart=/usr/bin/python3 -m hbmon
-WorkingDirectory=%h/hbmon
 Restart=on-failure
+RestartSec=5
+
 [Install]
 WantedBy=default.target
 ```
+
+`status=200/CHDIR` in `systemctl --user status hbmon` means `WorkingDirectory` doesn't exist.
 
 (`systemctl --user enable --now hbmon`, plus `loginctl enable-linger $USER` so it keeps
 running while you're logged out.)
